@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "112986379614",
+    "firebase_url": "https://ward-19fbd-default-rtdb.firebaseio.com",
+    "project_id": "ward-19fbd",
+    "storage_bucket": "ward-19fbd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112986379614:android:242751f6dbe092d675abcf",
+        "android_client_info": {
+          "package_name": "com.lao.ward"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "112986379614-809rcgoksj5drfmmn1edhsukstblmf5k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbL24laG9BQVPBbNfj5MOlM9106Kbfa7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "112986379614-809rcgoksj5drfmmn1edhsukstblmf5k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "112986379614-3h3kemdladrpk45khg3feiv9o52qv74k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lado.ward"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
