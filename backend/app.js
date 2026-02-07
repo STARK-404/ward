@@ -27,6 +27,7 @@ app.use('/api/jobs', require('./src/routes/jobRoutes'));
 app.use('/api/announcements', require('./src/routes/announcementRoutes'));
 app.use('/api/complaints', require('./src/routes/complaintRoutes'));
 app.use('/api/emergency', require('./src/routes/emergencyRoutes'));
+app.use('/api/blood-donation', require('./src/routes/bloodDonationRoutes'));
 
 app.get('/', (req, res) => {
     res.send('API is running...');
