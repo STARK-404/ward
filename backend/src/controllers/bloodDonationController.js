@@ -133,23 +133,17 @@ const requestBloodDonation = async (req, res) => {
             contactNumber,
         });
 
-        // Find compatible blood groups that can donate
-        const compatibleGroups = bloodCompatibility[bloodGroup] || [bloodGroup];
-
-        // Find available donors with compatible blood groups in the same ward
-        const matchingDonors = await BloodDonor.find({
+        // Find ALL users in the same ward (excluding the requester) with push tokens
+        const wardUsers = await User.find({
             ward: req.user.ward,
-            bloodGroup: { $in: compatibleGroups },
-            isAvailable: true,
-            user: { $ne: userId } // Exclude the requester
-        }).populate('user', 'expoPushToken name');
+            _id: { $ne: userId },
+            expoPushToken: { $exists: true, $ne: null }
+        }).select('expoPushToken name');
 
-        // Collect push tokens from matching donors
-        const pushTokens = matchingDonors
-            .filter(donor => donor.user && donor.user.expoPushToken)
-            .map(donor => donor.user.expoPushToken);
+        // Collect push tokens from all ward members
+        const pushTokens = wardUsers.map(user => user.expoPushToken);
 
-        // Send push notifications
+        // Send push notifications to all ward members
         if (pushTokens.length > 0) {
             await sendPushNotifications(pushTokens, {
                 title: '🩸 Emergency Blood Request!',
@@ -167,7 +161,7 @@ const requestBloodDonation = async (req, res) => {
         res.status(201).json({
             message: 'Blood request submitted',
             emergency,
-            notifiedDonors: matchingDonors.length,
+            notifiedUsers: wardUsers.length,
         });
     } catch (error) {
         res.status(400).json({ message: error.message });
