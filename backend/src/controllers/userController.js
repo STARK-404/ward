@@ -23,29 +23,32 @@ const updateUserProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
 
-        if (user) {
-            user.name = req.body.name || user.name;
-            user.ward = req.body.ward || user.ward;
-            user.district = req.body.district || user.district;
-            user.state = req.body.state || user.state;
-
-            if (req.body.profile) {
-                user.profile = { ...user.profile, ...req.body.profile };
-            }
-
-            const updatedUser = await user.save();
-            res.json({
-                _id: updatedUser._id,
-                name: updatedUser.name,
-                phone: updatedUser.phone,
-                role: updatedUser.role,
-                ward: updatedUser.ward,
-                profile: updatedUser.profile
-            });
-        } else {
-            res.status(404).json({ message: 'User not found' });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
         }
+
+        user.name = req.body.name || user.name;
+        user.ward = req.body.ward || user.ward;
+        user.district = req.body.district || user.district;
+        user.state = req.body.state || user.state;
+
+        if (req.body.profile) {
+            // Initialize profile if it doesn't exist
+            const existingProfile = user.profile ? user.profile.toObject() : {};
+            user.profile = { ...existingProfile, ...req.body.profile };
+        }
+
+        const updatedUser = await user.save();
+        res.json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            phone: updatedUser.phone,
+            role: updatedUser.role,
+            ward: updatedUser.ward,
+            profile: updatedUser.profile
+        });
     } catch (error) {
+        console.error('Update profile error:', error);
         res.status(500).json({ message: error.message });
     }
 };
