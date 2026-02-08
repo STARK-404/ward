@@ -135,7 +135,7 @@ const requestBloodDonation = async (req, res) => {
 
         // Find ALL users in the same ward (excluding the requester) with push tokens
         const wardUsers = await User.find({
-            ward: req.user.ward,
+            ward: { $regex: new RegExp(`^${req.user.ward.trim()}$`, 'i') },
             _id: { $ne: userId },
             expoPushToken: { $exists: true, $ne: null }
         }).select('expoPushToken name');
